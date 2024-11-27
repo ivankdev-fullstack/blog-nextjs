@@ -5,14 +5,13 @@ import s from "./Hero.module.css";
 const Hero = () => {
   return (
     <section className={s.hero}>
-      <div className={s.image}>
-        <Image
-          src="/images/site/max.png"
-          alt="Person image"
-          width={300}
-          height={300}
-        />
-      </div>
+      <Image
+        src="/images/site/max.png"
+        alt="Person image"
+        width={300}
+        height={300}
+        className={s.image}
+      />
       <h1>Hi, I'm Max</h1>
       <p>
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Esse dolore
