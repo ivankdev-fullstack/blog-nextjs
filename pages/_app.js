@@ -1,7 +1,8 @@
 import "../styles/globals.css";
+import Homepage from "./";
 
 const MyApp = () => {
-  return <div>MyApp</div>;
+  return <Homepage />;
 };
 
 export default MyApp;
