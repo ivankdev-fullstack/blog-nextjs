@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import s from "./notification.module.css";
+import s from "./Notification.module.css";
 
 function Notification({ title, message, status }) {
   const statusClasses = status === "success" ? classes.success : classes.error;

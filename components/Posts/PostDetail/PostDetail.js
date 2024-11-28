@@ -1,31 +1,55 @@
 import Image from "next/image";
 import React from "react";
 import Markdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import s from "./PostDetail.module.css";
 
-const DUMMY_POST = {
-  title: "Getting Started Nextjs1",
-  slug: "getting-started-nextjs",
-  image: "getting-started-nextjs.png",
-  date: "2022-02-10",
-  content: "# This is a first post",
-};
+const PostDetail = ({ post }) => {
+  const imagePath = `/images/posts/${post.slug}/${post.image}`;
 
-const PostDetail = () => {
-  const imagePath = `/images/posts/${DUMMY_POST.slug}/${DUMMY_POST.image}`;
+  const customRenderers = {
+    p(paragraph) {
+      const { node } = paragraph;
+
+      if (node.children[0].tagName === "img") {
+        const image = node.children[0];
+
+        return (
+          <div className={s.image}>
+            <Image
+              src={`/images/posts/${post.slug}/${image.properties.src}`}
+              alt={image.alt}
+              width={600}
+              height={300}
+            />
+          </div>
+        );
+      }
+
+      return <p>{paragraph.children}</p>;
+    },
+
+    code(code) {
+      const { className, children } = code;
+      const language = className.split("-")[1]; // className is something like language-js => We need the "js" part here
+      return (
+        <SyntaxHighlighter
+          style={atomDark}
+          language={language}
+          children={children}
+        />
+      );
+    },
+  };
 
   return (
     <article className={s.content}>
       <header className={s.header}>
-        <h1>{DUMMY_POST.title}</h1>
-        <Image
-          src={imagePath}
-          alt={DUMMY_POST.title}
-          width={200}
-          height={150}
-        />
+        <h1>{post.title}</h1>
+        <Image src={imagePath} alt={post.title} width={200} height={150} />
       </header>
-      <Markdown>{DUMMY_POST.content}</Markdown>
+      <Markdown components={customRenderers}>{post.content}</Markdown>
     </article>
   );
 };

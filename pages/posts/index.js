@@ -1,46 +1,30 @@
-import fs from "fs";
-import matter from "gray-matter";
-import path from "path";
+import Head from "next/head";
+import AllPosts from "../../components/Posts/AllPosts/AllPosts";
+import { getAllPosts } from "../../lib/posts";
 
-const postsDirectory = path.join(process.cwd(), "posts");
-
-export function getPostsFiles() {
-  return fs.readdirSync(postsDirectory);
-}
-
-export function getPostData(postIdentifier) {
-  const postSlug = postIdentifier.replace(/\.md$/, ""); // removes the file extension
-  const filePath = path.join(postsDirectory, `${postSlug}.md`);
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(fileContent);
-
-  const postData = {
-    slug: postSlug,
-    ...data,
-    content,
-  };
-
-  return postData;
-}
-
-export function getAllPosts() {
-  const postFiles = getPostsFiles();
-
-  const allPosts = postFiles.map((postFile) => {
-    return getPostData(postFile);
-  });
-
-  const sortedPosts = allPosts.sort((postA, postB) =>
-    postA.date > postB.date ? -1 : 1
+function AllPostsPage({ posts }) {
+  return (
+    <>
+      <Head>
+        <title>All Posts</title>
+        <meta
+          name="description"
+          content="A list of all programming-related tutorials and posts!"
+        />
+      </Head>
+      <AllPosts posts={posts} />
+    </>
   );
-
-  return sortedPosts;
 }
 
-export function getFeaturedPosts() {
+export function getStaticProps() {
   const allPosts = getAllPosts();
 
-  const featuredPosts = allPosts.filter((post) => post.isFeatured);
-
-  return featuredPosts;
+  return {
+    props: {
+      posts: allPosts,
+    },
+  };
 }
+
+export default AllPostsPage;

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-
-import Notification from "../ui/notification";
-import s from "./contact-form.module.css";
+import Notification from "../Notification/Notification";
+import s from "./ContactForm.module.css";
 
 async function sendContactData(contactDetails) {
   const response = await fetch("/api/contact", {
