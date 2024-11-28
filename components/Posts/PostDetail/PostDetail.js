@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import Markdown from "react-markdown";
 import s from "./PostDetail.module.css";
 
 const DUMMY_POST = {
@@ -24,7 +25,7 @@ const PostDetail = () => {
           height={150}
         />
       </header>
-      {DUMMY_POST.content}
+      <Markdown>{DUMMY_POST.content}</Markdown>
     </article>
   );
 };
